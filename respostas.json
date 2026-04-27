@@ -1,0 +1,57 @@
+{
+ "cumprimento": [
+  "Olá. Como posso te ajudar hoje? Posso auxiliar com cartão, fatura, limite, senha, pagamentos, compras e parcelamento.",
+  "Oi. Em que posso ajudar? Você pode perguntar sobre limite, cartão, fatura, senha, compra, pagamento ou parcelamento.",
+  "Bom dia. Como posso auxiliar? Atendo dúvidas sobre cartão, fatura, limite, senha, pagamentos e compras.",
+  "Boa tarde. Precisa de ajuda? Posso orientar sobre fatura, cartão, limite, senha, compras, pagamentos e parcelamentos.",
+  "Boa noite. Como posso ajudar? Você pode consultar informações sobre cartão, fatura, limite, senha, pagamentos e compras."
+  ],
+
+  "cartão": [
+    "Você pode acessar a área de cartões no aplicativo para gerenciar bloqueio, senha ou solicitar uma nova via.",
+    "Para assuntos de cartão, acesse o app ou entre em contato com o suporte.",
+    "Na área de cartões você consegue resolver bloqueio, segunda via e configurações."
+  ],
+
+  "fatura": [
+    "Sua fatura está disponível no aplicativo, com detalhes de valores e vencimento.",
+    "Você pode consultar e pagar sua fatura diretamente pelo app.",
+    "Acesse o app para ver sua fatura atual ou emitir segunda via."
+  ],
+
+  "limite": [
+    "Você pode consultar ou alterar seu limite diretamente pelo aplicativo.",
+    "O ajuste de limite pode ser feito no app, sujeito à análise.",
+    "Verifique seu limite e possíveis alterações na área financeira do app."
+  ],
+
+  "senha": [
+    "Você pode alterar sua senha nas configurações do aplicativo.",
+    "Caso tenha esquecido, utilize a opção de recuperação de senha.",
+    "A troca de senha pode ser feita de forma segura pelo app."
+  ],
+
+  "compra": [
+    "Se houve problema com uma compra, entre em contato com o suporte.",
+    "Você pode contestar compras diretamente pelo aplicativo.",
+    "Para compras indevidas, recomendamos abrir uma solicitação no app."
+  ],
+
+  "parcelamento": [
+    "Você pode parcelar sua fatura diretamente pelo aplicativo.",
+    "As opções de parcelamento estão disponíveis no app com os juros detalhados.",
+    "Consulte no app as condições para parcelamento da sua fatura."
+  ],
+
+  "pagamento": [
+    "Os pagamentos podem ser feitos pelo aplicativo.",
+    "Você pode pagar via boleto ou débito automático no app.",
+    "Consulte as opções de pagamento disponíveis na sua conta."
+  ],
+
+  "outros": [
+    "Para mais informações, acesse o aplicativo ou fale com o suporte.",
+    "Estamos disponíveis para te ajudar em qualquer dúvida.",
+    "Consulte o app para mais detalhes ou entre em contato com o atendimento."
+  ]
+}
