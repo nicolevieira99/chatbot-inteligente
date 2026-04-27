@@ -1,5 +1,6 @@
 import json
 import random
+from datetime import datetime
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
@@ -93,6 +94,42 @@ def responder(pergunta):
     if maior_probabilidade < 0.15:
         return "Desculpe, não entendi sua solicitação."
 
+    # Ajusta cumprimentos com base no horário
+    if categoria_prevista == 'cumprimento':
+        hora = datetime.now().hour
+        if 'bom dia' in pergunta:
+            periodo = 'manha'
+        elif 'boa tarde' in pergunta:
+            periodo = 'tarde'
+        elif 'boa noite' in pergunta:
+            periodo = 'noite'
+        elif 5 <= hora < 12:
+            periodo = 'manha'
+        elif 12 <= hora < 18:
+            periodo = 'tarde'
+        else:
+            periodo = 'noite'
+
+        saudacoes = {
+            'manha': [
+                'Bom dia! Como posso ajudá-lo hoje?',
+                'Bom dia! Em que posso ajudar?',
+                'Olá, bom dia! Estou aqui para ajudar.'
+            ],
+            'tarde': [
+                'Boa tarde! Como posso ajudá-lo agora?',
+                'Boa tarde! Precisa de ajuda com algo?',
+                'Olá, boa tarde! Estou à disposição.'
+            ],
+            'noite': [
+                'Boa noite! Como posso ajudar?',
+                'Boa noite! Precisa de algo?',
+                'Olá, boa noite! Estou à disposição.'
+            ]
+        }
+
+        return random.choice(saudacoes[periodo])
+
     resposta = respostas.get(categoria_prevista, "Não entendi.")
 
     # 🔥 se for lista, escolhe aleatória
@@ -100,9 +137,3 @@ def responder(pergunta):
         return random.choice(resposta)
 
     return resposta
-
-    # 🔥 limite mais baixo (melhor pra poucos dados)
-    if maior_probabilidade < 0.15:
-        return "Desculpe, não entendi sua solicitação."
-
-    return respostas.get(categoria_prevista, "Não entendi.")
