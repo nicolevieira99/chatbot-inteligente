@@ -32,18 +32,6 @@
             display: flex;
             flex-direction: column;
             height: 600px;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .header {
@@ -59,9 +47,10 @@
             font-weight: 600;
         }
 
-        .header p {
+        .status {
             font-size: 14px;
             opacity: 0.9;
+            font-weight: 600;
         }
 
         .chat-box {
@@ -74,20 +63,7 @@
 
         .message {
             margin-bottom: 15px;
-            animation: fadeIn 0.3s ease-in;
             display: flex;
-            gap: 10px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .message.user {
@@ -134,15 +110,10 @@
             border-radius: 24px;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.3s ease;
         }
 
         input:focus {
             border-color: #0ea5e9;
-        }
-
-        input::placeholder {
-            color: #999;
         }
 
         .button-group {
@@ -157,32 +128,12 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        #enviarBtn {
-            background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
-            color: white;
-            padding: 12px 24px;
-        }
-
-        #enviarBtn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
-        }
-
-        #enviarBtn:active {
-            transform: translateY(0);
-        }
-
+        #enviarBtn,
         #iniciarBtn {
             background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
             color: white;
-        }
-
-        #iniciarBtn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
         }
 
         #encerrarBtn {
@@ -191,196 +142,170 @@
             display: none;
         }
 
-        #encerrarBtn:hover {
-            background: #e0e0e0;
-        }
-
         .input-area.disabled input,
-        .input-area.disabled button:not(#iniciarBtn) {
+        .input-area.disabled #enviarBtn {
             pointer-events: none;
             opacity: 0.5;
         }
 
-        .input-area.disabled #iniciarBtn {
-            pointer-events: all;
-            opacity: 1;
-        }
-
         .empty-state {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100%;
             color: #999;
             text-align: center;
         }
-
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .empty-state p {
-            color: #999;
-        }
-
-        /* Scrollbar personalizado */
-        .chat-box::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .chat-box::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        .chat-box::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 3px;
-        }
-
-        .chat-box::-webkit-scrollbar-thumb:hover {
-            background: #999;
-        }
-
-        .status {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            text-align: center;
-        }
-
-        .status.active {
-            color: #ffffff;
-            font-weight: 600;
-        }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <div class="header">
-            <h1> Chatbot Inteligente</h1>
-            <p id="status" class="status">Clique em "Iniciar" para começar</p>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>Chatbot Inteligente</h1>
+        <p id="status" class="status">Clique em "Iniciar" para começar</p>
+    </div>
 
-        <div class="chat-box" id="chat">
-            <div class="empty-state">
-                <div class="empty-state-icon"></div>
-                <p>Inicie uma conversa para começar</p>
-            </div>
-        </div>
-
-        <div class="input-area disabled" id="inputArea">
-            <input type="text" id="mensagem" placeholder="Digite sua mensagem aqui...">
-            <div class="button-group">
-                <button id="enviarBtn" onclick="enviarMensagem()">Enviar</button>
-                <button id="iniciarBtn" onclick="iniciarChat()">Iniciar</button>
-                <button id="encerrarBtn" onclick="encerrarChat()">Encerrar</button>
-            </div>
+    <div class="chat-box" id="chat">
+        <div class="empty-state">
+            <p>Inicie uma conversa para começar</p>
         </div>
     </div>
 
-    <script>
-        let chatAtivo = false;
+    <div class="input-area disabled" id="inputArea">
+        <input type="text" id="mensagem" placeholder="Digite sua mensagem aqui...">
 
-        function iniciarChat() {
-            chatAtivo = true;
-            document.getElementById('chat').innerHTML = '';
-            document.getElementById('inputArea').classList.remove('disabled');
-            document.getElementById('iniciarBtn').style.display = 'none';
-            document.getElementById('encerrarBtn').style.display = 'block';
-            document.getElementById('status').textContent = 'Chat ativo';
-            document.getElementById('status').classList.add('active');
-            document.getElementById('mensagem').focus();
+        <div class="button-group">
+            <button id="enviarBtn" onclick="enviarMensagem()">Enviar</button>
+            <button id="iniciarBtn" onclick="iniciarChat()">Iniciar</button>
+            <button id="encerrarBtn" onclick="encerrarChat()">Encerrar</button>
+        </div>
+    </div>
+</div>
 
-            // Mensagem de boas-vindas do bot
-            const welcomeMessage = document.createElement('div');
-            welcomeMessage.className = 'message bot';
-            welcomeMessage.innerHTML = '<div class="message-content">Olá! Como posso ajudá-lo hoje?</div>';
-            document.getElementById('chat').appendChild(welcomeMessage);
-            scrollToBottom();
+<script>
+    let chatAtivo = false;
+    let aguardandoNome = false;
+    let nomeUsuario = "";
+
+    function iniciarChat() {
+        chatAtivo = true;
+        aguardandoNome = true;
+        nomeUsuario = "";
+
+        document.getElementById("chat").innerHTML = "";
+        document.getElementById("inputArea").classList.remove("disabled");
+        document.getElementById("iniciarBtn").style.display = "none";
+        document.getElementById("encerrarBtn").style.display = "block";
+        document.getElementById("status").textContent = "Chat ativo";
+        document.getElementById("mensagem").focus();
+
+        adicionarMensagemBot("Olá! Antes de começarmos, como você gostaria de ser chamado?");
+    }
+
+    function encerrarChat() {
+        chatAtivo = false;
+        aguardandoNome = false;
+        nomeUsuario = "";
+
+        document.getElementById("chat").innerHTML =
+            '<div class="empty-state"><p>Chat encerrado. Clique em "Iniciar" para começar uma nova conversa.</p></div>';
+
+        document.getElementById("inputArea").classList.add("disabled");
+        document.getElementById("iniciarBtn").style.display = "block";
+        document.getElementById("encerrarBtn").style.display = "none";
+        document.getElementById("mensagem").value = "";
+        document.getElementById("status").textContent = 'Clique em "Iniciar" para começar';
+    }
+
+    async function enviarMensagem() {
+        if (!chatAtivo) return;
+
+        const input = document.getElementById("mensagem");
+        const mensagem = input.value.trim();
+
+        if (!mensagem) return;
+
+        adicionarMensagemUsuario(mensagem);
+        input.value = "";
+
+        if (aguardandoNome) {
+            nomeUsuario = mensagem;
+            aguardandoNome = false;
+
+            adicionarMensagemBot(
+                `Prazer, ${escapeHtml(nomeUsuario)}! Posso te ajudar com assuntos sobre limite, cartão, fatura, senha, compras, pagamentos e parcelamentos. O que você gostaria de saber?`
+            );
+
+            return;
         }
 
-        function encerrarChat() {
-            chatAtivo = false;
-            document.getElementById('chat').innerHTML = '<div class="empty-state"><div class="empty-state-icon"></div><p>Chat encerrado. Clique em "Iniciar" para começar uma nova conversa</p></div>';
-            document.getElementById('inputArea').classList.add('disabled');
-            document.getElementById('iniciarBtn').style.display = 'block';
-            document.getElementById('encerrarBtn').style.display = 'none';
-            document.getElementById('mensagem').value = '';
-            document.getElementById('status').textContent = 'Chat encerrado';
-            document.getElementById('status').classList.remove('active');
-        }
+        try {
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ mensagem: mensagem })
+            });
 
-        async function enviarMensagem() {
-            if (!chatAtivo) return;
-
-            const mensagem = document.getElementById('mensagem').value.trim();
-            if (!mensagem) return;
-
-            // Adiciona mensagem do usuário
-            const userMsg = document.createElement('div');
-            userMsg.className = 'message user';
-            userMsg.innerHTML = '<div class="message-content">' + escapeHtml(mensagem) + '</div>';
-            document.getElementById('chat').appendChild(userMsg);
-            scrollToBottom();
-
-            document.getElementById('mensagem').value = '';
-
-            try {
-                const response = await fetch('/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ mensagem: mensagem })
-                });
-
-                const data = await response.json();
-
-                // Adiciona resposta do bot
-                const botMsg = document.createElement('div');
-                botMsg.className = 'message bot';
-                botMsg.innerHTML = '<div class="message-content">' + escapeHtml(data.resposta) + '</div>';
-                document.getElementById('chat').appendChild(botMsg);
-                scrollToBottom();
-            } catch (error) {
-                console.error('Erro:', error);
-                const errorMsg = document.createElement('div');
-                errorMsg.className = 'message bot';
-                errorMsg.innerHTML = '<div class="message-content">Desculpe, houve um erro ao processar sua mensagem.</div>';
-                document.getElementById('chat').appendChild(errorMsg);
-                scrollToBottom();
+            if (!response.ok) {
+                throw new Error("Erro na rota /chat");
             }
-        }
 
-        function scrollToBottom() {
-            const chatBox = document.getElementById('chat');
-            setTimeout(() => {
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 0);
-        }
+            const data = await response.json();
 
-        function escapeHtml(text) {
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
-            return text.replace(/[&<>"']/g, m => map[m]);
+            adicionarMensagemBot(`${escapeHtml(nomeUsuario)}, ${escapeHtml(data.resposta)}`);
+        } catch (error) {
+            console.error(error);
+            adicionarMensagemBot("Desculpe, houve um erro ao processar sua mensagem.");
         }
+    }
 
-        // Permitir enviar com Enter
-        document.getElementById('mensagem').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && chatAtivo) {
-                enviarMensagem();
-            }
+    function adicionarMensagemUsuario(texto) {
+        const userMsg = document.createElement("div");
+        userMsg.className = "message user";
+        userMsg.innerHTML = '<div class="message-content">' + escapeHtml(texto) + "</div>";
+        document.getElementById("chat").appendChild(userMsg);
+        scrollToBottom();
+    }
+
+    function adicionarMensagemBot(texto) {
+        const botMsg = document.createElement("div");
+        botMsg.className = "message bot";
+        botMsg.innerHTML = '<div class="message-content">' + texto + "</div>";
+        document.getElementById("chat").appendChild(botMsg);
+        scrollToBottom();
+    }
+
+    function scrollToBottom() {
+        const chatBox = document.getElementById("chat");
+        setTimeout(() => {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 0);
+    }
+
+    function escapeHtml(text) {
+        const map = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        };
+
+        return String(text).replace(/[&<>"']/g, function(m) {
+            return map[m];
         });
-    </script>
+    }
+
+    document.getElementById("mensagem").addEventListener("keypress", function(e) {
+        if (e.key === "Enter" && chatAtivo) {
+            enviarMensagem();
+        }
+    });
+</script>
 
 </body>
 </html>

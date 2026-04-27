@@ -1,5 +1,6 @@
 import json
 import random
+import re
 from datetime import datetime
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -56,6 +57,17 @@ frases = [
     'boa tarde',
     'boa noite',
     'hello',    
+    # nome do usuário
+    'me chame de joão',
+    'me chame de maria',
+    'meu nome é joão',
+    'meu nome é maria',
+    'meu nome e joão',
+    'meu nome e maria',
+    'eu sou joão',
+    'eu sou maria',
+    'sou joão',
+    'sou maria',
 ]
 
 categorias = [
@@ -67,7 +79,8 @@ categorias = [
     'parcelamento','parcelamento',
     'pagamento','pagamento',
     'outros','outros',
-    'cumprimento','cumprimento','cumprimento','cumprimento','cumprimento','cumprimento','cumprimento'
+    'cumprimento','cumprimento','cumprimento','cumprimento','cumprimento','cumprimento','cumprimento',
+    'nome','nome','nome','nome','nome','nome','nome','nome','nome','nome'
 ]
 
 # VETORIZADOR (ignora acentos)
@@ -80,6 +93,26 @@ modelo.fit(X, categorias)
 # RESPOSTAS
 with open("respostas.json", "r", encoding="utf-8") as arquivo:
     respostas = json.load(arquivo)
+
+# Funções auxiliares
+
+def extrair_nome(pergunta):
+    padrões = [
+        r"me chame de\s+(.+)",
+        r"me chame como\s+(.+)",
+        r"pode me chamar de\s+(.+)",
+        r"meu nome é\s+(.+)",
+        r"meu nome e\s+(.+)",
+        r"eu sou\s+(.+)",
+        r"sou\s+(.+)"
+    ]
+    for padrão in padrões:
+        correspondência = re.search(padrão, pergunta, re.IGNORECASE)
+        if correspondência:
+            nome = correspondência.group(1).strip()
+            nome = re.sub(r"[^\w\sáàâãéêíóôõúçÁÀÂÃÉÊÍÓÔÕÚÇ-]", "", nome)
+            return nome.title()
+    return None
 
 # FUNÇÃO PRINCIPAL
 def responder(pergunta):
@@ -96,39 +129,10 @@ def responder(pergunta):
 
     # Ajusta cumprimentos com base no horário
     if categoria_prevista == 'cumprimento':
-        hora = datetime.now().hour
-        if 'bom dia' in pergunta:
-            periodo = 'manha'
-        elif 'boa tarde' in pergunta:
-            periodo = 'tarde'
-        elif 'boa noite' in pergunta:
-            periodo = 'noite'
-        elif 5 <= hora < 12:
-            periodo = 'manha'
-        elif 12 <= hora < 18:
-            periodo = 'tarde'
-        else:
-            periodo = 'noite'
-
-        saudacoes = {
-            'manha': [
-                'Bom dia! Como posso ajudá-lo hoje?',
-                'Bom dia! Em que posso ajudar?',
-                'Olá, bom dia! Estou aqui para ajudar.'
-            ],
-            'tarde': [
-                'Boa tarde! Como posso ajudá-lo agora?',
-                'Boa tarde! Precisa de ajuda com algo?',
-                'Olá, boa tarde! Estou à disposição.'
-            ],
-            'noite': [
-                'Boa noite! Como posso ajudar?',
-                'Boa noite! Precisa de algo?',
-                'Olá, boa noite! Estou à disposição.'
-            ]
-        }
-
-        return random.choice(saudacoes[periodo])
+        resposta_cumprimento = respostas.get('cumprimento')
+        if resposta_cumprimento:
+            return random.choice(resposta_cumprimento)
+        return 'Olá! Como posso ajudá-lo hoje?'
 
     resposta = respostas.get(categoria_prevista, "Não entendi.")
 
