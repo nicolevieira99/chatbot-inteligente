@@ -62,6 +62,3 @@ http://127.0.0.1:5000
 * Vitória Santos
 * Sthefany Alves
 
-## 📚 Status do projeto
-
-Projeto acadêmico em desenvolvimento.
